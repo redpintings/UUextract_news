@@ -3,7 +3,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.txt
 # C extensions
 *.so
 *.idea
@@ -55,7 +54,7 @@ cover/
 # Translations
 *.mo
 *.pot
-
+*.plan.txt
 # Django stuff:
 *.log
 local_settings.py

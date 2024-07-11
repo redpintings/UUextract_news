@@ -1,0 +1,12 @@
+beautifulsoup4==4.12.3
+chardet==4.0.0
+gne==0.3.0
+loguru==0.5.3
+lxml==4.6.3
+parsel==1.6.0
+Pillow==10.4.0
+requests==2.25.1
+scikit_learn==1.5.1
+torch==1.8.1
+transformers==4.5.1
+user_agent==0.1.10
