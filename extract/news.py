@@ -1,10 +1,9 @@
 #!/usr/bin/ python
 # -*- coding: utf-8 -*-
-# @Time    : 2023/1/31 10:14
 # @Author  : ysl
 # @File    : news.py
+
 import re
-# @Software: PyCharm
 import html as ht
 from req import *
 from loguru import logger

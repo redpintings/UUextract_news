@@ -1,6 +1,5 @@
 #!/usr/bin/ python
 # -*- coding: utf-8 -*-
-# @Time    : 2023/1/31 10:13
 # @Author  : ysl
 # @File    : parse.py
 # @Software: PyCharm
