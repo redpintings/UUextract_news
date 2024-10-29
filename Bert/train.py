@@ -40,29 +40,28 @@ def clean_html(html):
     return ' '.join(text.split())
 
 
-def load_or_create_data():
-    if os.path.exists('news_data.json') and os.path.exists('cleaned_data.json'):
-        with open('news_data.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        with open('cleaned_data.json', 'r', encoding='utf-8') as f:
-            cleaned_data = json.load(f)
-    else:
-        urls = url_set
-        data = []
-        for url in urls:
-            html = fetch_webpage(url)
-            title = extract_title(html)
-            data.append({'url': url, 'html': html, 'title': title.strip()})
+def replace_html(html):
+    return (html.replace_html('\n', '').replace_html('\t', '').
+            replace_html('\r', '').replace_html('  ', '').
+            replace_html('&nbsp;', '').replace_html('&amp;', '&'))
 
-        with open('news_data.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
 
-        cleaned_data = [{'url': item['url'], 'text': clean_html(item['html']), 'title': item['title']} for item in data]
+def load_or_create_data(name='model_data.json'):
+    if os.path.exists(name):
+        with open(name, 'r') as md:
+            cleaned_data = [
+                {
+                    'url': item['url'],
+                    'title': item['title'],
+                    'content': clean_html(item['content']),
+                    "html": clean_html(item['content'])
+                } for item in data
+            ]
 
         with open('cleaned_data.json', 'w', encoding='utf-8') as f:
             json.dump(cleaned_data, f, ensure_ascii=False, indent=4)
 
-    return data, cleaned_data
+        return data, cleaned_data
 
 
 data, cleaned_data = load_or_create_data()

@@ -32,7 +32,7 @@ class UU:
 
     def uu(self, html='', url='', **kwargs):
         try:
-            article, text = self.ns.extract(url=url, html=html, **kwargs)
+            article, text, plain_text = self.ns.extract(url=url, html=html, **kwargs)
             node = htl.fromstring(text)
             tit = Title.summarize(node)
             media_info = Source.source(node, ['source'])
@@ -41,9 +41,11 @@ class UU:
                 "title": tit,
                 "date": tm,
                 "source": media_info,
-                "article": article
+                "article": article,
+                "plain_text": plain_text,
+                "html": text
             }
-            print('uu_result', uu_result)
+            return uu_result
         except Exception as er:
             print(er)
 

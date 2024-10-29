@@ -14,7 +14,7 @@ from config import inspection, default_tag_, static_source
 from loguru import logger
 from collections import Counter
 from bs4 import BeautifulSoup
-from extract.parse import Parse
+# from extract.parse import Parse
 from urllib.parse import urljoin
 from config import img_size, static_img
 # from parsel import Selector
@@ -110,6 +110,7 @@ class RemoveUseless:
         xpath('//attribute::*')  xpath('//@class | //@id')
         这里只用了score来进行决斗⚔️如果效果不理想， 还可以加入 len值
         """
+        from extract.parse import Parse
         article_lst = list()
         _select = cls.tree(text)
         select = cls.img_tag(_select, url)

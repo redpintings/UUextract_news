@@ -32,6 +32,11 @@ class News:
         response = self.req.req(url, **kwargs)
         return response
 
+    def end_plain_text(self, list_html, **kwargs):
+        end_text = ''.join(list_html).replace('\\n', '').replace('\\r', '').replace('\\t', '').replace(' ', '').replace(
+            '\xa0', '').replace('\u3000', '').replace('\u200b', '').replace('\u200e', '').replace('\u200c', '')
+        return end_text
+
     def match_all_sentences(self, sent):
         # re.findall(r'<[\s.]*?>.*?</.*?>', )
         pass
@@ -46,4 +51,7 @@ class News:
             return
         res = self.parse.dom_tree(resp)
         article = self.sec_clearn_tag(res, url)
-        return ht.unescape(article), html
+        article = ht.unescape(article)
+        _plain_text = self.parse.node(article).xpath("//text()").getall()
+        plain_text = self.end_plain_text(_plain_text)
+        return article, html, plain_text
