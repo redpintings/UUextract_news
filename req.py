@@ -25,3 +25,9 @@ class Req:
         if "json" in response.headers.get("Content-Type"):
             return tp
         return tp == 1
+
+
+if __name__ == '__main__':
+    req = Req(url='')
+    resp = req.req('https://ckxxapp.ckxx.net/pages/2024/11/08/968304f76c12473bacd71f09d6217da2.html')
+    print(resp)

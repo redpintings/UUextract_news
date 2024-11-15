@@ -1,7 +1,10 @@
 import re
 from lxml import etree
+import re
+from bs4 import BeautifulSoup
 from config import chinese_punc, inspection
 from parsel import Selector
+
 
 class Parse:
     def __init__(self):
@@ -117,3 +120,26 @@ class Parse:
     def supplement(self, html, flg):
         com = re.compile(f'</h1>.*?{flg}', re.S)
         return re.findall(r'[\u4e00-\u9fa5]+', com.search(html).group())
+
+    @staticmethod
+    def extract_js_text(html):
+        # Step 1: Use regex to find all consecutive <p> tags in the HTML
+        paragraph_blocks = re.findall(r'(<p.*?>.*?/p>)', html, re.DOTALL)
+
+        # Step 2: Initialize the main content text
+        main_content = ""
+        for block in paragraph_blocks:
+            # Parse the block with BeautifulSoup
+            soup = BeautifulSoup(block, 'html.parser')
+
+            # Extract and clean the text from each <p> tag within the block
+            paragraphs = [p.get_text(strip=True) for p in soup.find_all("p")]
+
+            # Concatenate paragraphs if they form a large enough block to be considered main content
+            block_text = "\n\n".join(paragraphs)
+            if len(block_text) > 100:  # Adjust the length threshold as needed
+                main_content += block_text + "\n\n"
+
+        # Step 3: Final clean-up to remove any remaining HTML or JS artifacts
+        clean_text = re.sub(r'\s+', ' ', main_content).strip()
+        return clean_text

@@ -43,13 +43,19 @@ class News:
 
     def extract(self, html='', url='', **kwargs):
         if url:
-            html = self.get_html(url, **kwargs)
-        html = self.cln.clean_jumbled_text(html)
+            original_html = self.get_html(url, **kwargs)  # 保存原始的 HTML
+            html = self.cln.clean_jumbled_text(original_html)  # 处理后的 HTML
+        else:
+            original_html = html  # 如果没有 URL，则原始 HTML 就是传入的 HTML
+            html = self.cln.clean_jumbled_text(original_html)
         resp = self.clearn_tag(html)
         if len(resp) < inspection:
-            logger.warning('解析失败！！！')
+            logger.warning('解析失败！！！!!!')
             return
         res = self.parse.dom_tree(resp)
+        if res is None:
+            dd = Parse.extract_js_text(original_html)
+            return dd, original_html, dd
         article = self.sec_clearn_tag(res, url)
         article = ht.unescape(article)
         _plain_text = self.parse.node(article).xpath("//text()").getall()

@@ -35,7 +35,7 @@ class RemoveUseless:
         result = uncommon_tag.most_common(1)
         for _tag, count in result:
             htmls = htmls.replace(_tag, 'div')
-        article_cleaner = Cleaner(style=True, javascript=True,)
+        article_cleaner = Cleaner(style=True, javascript=True, remove_unknown_tags=True)
         article_cleaner.javascript = True
         article_cleaner.style = True
         article_cleaner.allow_tags = default_tag
@@ -86,7 +86,8 @@ class RemoveUseless:
     @classmethod
     def score(cls, node_str):
         unknown_tags = re.findall(r'</[a-z]{1,3}>', node_str, re.S)
-        lss = sorted([(len(two), two[0]) for two in cls.count_and_find_tag_p(unknown_tags)], key=lambda x: x[0], reverse=True)
+        lss = sorted([(len(two), two[0]) for two in cls.count_and_find_tag_p(unknown_tags)], key=lambda x: x[0],
+                     reverse=True)
         lss.sort(key=lambda x: x[1])
         for i in range(1, len(lss)):
             if lss[i - 1][0] < lss[i][0] * 2:
