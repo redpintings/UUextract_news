@@ -23,11 +23,11 @@ async def extract_plain_text(request: URLRequest):
 
         # 获取 plain_text
         plain_text = result.get('plain_text')
-
+        source = result.get('source')
         if plain_text is None:
             raise HTTPException(status_code=404, detail="Plain text not found in the extracted content.")
 
-        return {"url": request.url, "plain_text": plain_text}
+        return {"url": request.url, "source": source, "plain_text": plain_text}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -36,4 +36,4 @@ async def extract_plain_text(request: URLRequest):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8002)

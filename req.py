@@ -17,6 +17,9 @@ class Req:
     def req(self, url, **kwargs):
         resp_obj = requests.get(url, headers=dict(self.headers, **kwargs), timeout=5)
         encoding = chardet.detect(resp_obj.content).get('encoding')
+        print('encoding str:', encoding)
+        if encoding == "MacRoman":
+            encoding = "utf-8"
         resp_obj.encoding = encoding if encoding else self.charset
         return resp_obj.text
 
@@ -31,3 +34,8 @@ if __name__ == '__main__':
     req = Req(url='')
     resp = req.req('https://ckxxapp.ckxx.net/pages/2024/11/08/968304f76c12473bacd71f09d6217da2.html')
     print(resp)
+
+"""
+https://www.ithome.com/0/819/145.html
+https://www.ithome.com/0/819/145.htm
+"""
